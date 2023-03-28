@@ -1,0 +1,53 @@
+aks_subnet_name = "aks-subnet"
+tenant_id = "***"
+subscription_id = "***"
+location = "australiaeast
+environment = "dev"
+dns_zone_name = "example.com"
+aks_default_node_pool = {
+  name = "main"
+  min_count = 3
+  max_count = 99
+  vm_size = "standard_d4s_v3"
+  availability_zones = [1]
+}
+kubernetes_namespaces = {
+  app = {}
+  platform-az = {}
+}
+spoke_virtual_network_address_space = [
+    "10.0.0.0/16"
+]
+hub_virtual_network_address_space = [
+    "10.1.0.0/16"
+]
+spoke_subnets = [
+    {
+      name = "aks-subnet"
+      address_prefixes = ["10.0.0.0/21"]
+    },
+    {
+      name = "private-endpoints"
+      address_prefixes = ["10.0.9.0/24"]
+    },
+    {
+      name = "az-imm-aks-lb-subnet"
+      address_prefixes = ["10.0.255.248/29"]
+    },
+]
+hub_subnets = [
+    {
+      name = "AzureFirewallSubnet"
+      address_prefixes = ["10.1.0.0/24"]
+    },
+    {
+      name = "GatewaySubnet"
+      address_prefixes = ["10.1.1.0/24"]
+    },
+]
+
+private_dns_zone_names = [
+  "privatelink.azurecr.io",
+  "privatelink.database.windows.net",
+]
+private_endpoint_subnet = "private-endpoints"
