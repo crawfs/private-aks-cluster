@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-httpd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world-httpd
+  template:
+    metadata:
+      labels:
+        app: hello-world-httpd
+    spec:
+      containers:
+      - name: hello-world-httpd
+        image: acrjccdevaue.azurecr.io/hello-world-httpd:1.0
+        ports:
+        - containerPort: 80

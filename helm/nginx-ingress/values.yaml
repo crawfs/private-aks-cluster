@@ -1,0 +1,30 @@
+controller:
+  relicaCount: 2
+  nodeSelector:
+    kubernetes.io/os: linux
+  image:
+    registry: acrjccdevaue.azurecr.io
+    image: ingress-nginx
+    tag: 1.6.4
+    digest: ""
+  admissionWebhooks:
+    patch:
+      image:
+        repository: acrjccdevaue.azurecr.io
+        image: defaultbackend-amd64
+        tag: 1.5.1
+        digest: ""
+  defaultBackend:
+    nodeSelector:
+      kubernetes.io/os: linux
+      image:
+        registry: acrjccdevaue.azurecr.io
+        image: defaultbackend-amd64
+        tag: 1.5
+        digest: ""
+  service:
+    externalTrafficPolicy: Local
+    loadBalancerIP: 10.1.127.252
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+      service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "azaue-imm-dev-iac-aks-lb"
