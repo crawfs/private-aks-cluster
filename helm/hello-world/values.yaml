@@ -1,0 +1,7 @@
+helloWorldHttpd:
+  helloWorldHttpd:
+    image:
+      repository: acrjccdevaue.azurecr.io/hello-world-httpd
+      tag: "1.0"
+  replicas: 1
+kubernetesClusterDomain: cluster.local

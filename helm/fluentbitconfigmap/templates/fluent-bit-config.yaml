@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fluentbitconfigmap.fullname" . }}-fluent-bit-config
+  labels:
+  {{- include "fluentbitconfigmap.labels" . | nindent 4 }}
+data:
+  filter-kubernetes.conf: {{ .Values.fluentBitConfig.filterKubernetesConf | toYaml
+    | indent 1 }}
+  fluent-bit.conf: {{ .Values.fluentBitConfig.fluentBitConf | toYaml | indent 1 }}
+  input-kubernetes.conf: {{ .Values.fluentBitConfig.inputKubernetesConf | toYaml
+    | indent 1 }}
+  output-psql.conf: {{ .Values.fluentBitConfig.outputPsqlConf | toYaml | indent 1
+    }}
+  parsers.conf: {{ .Values.fluentBitConfig.parsersConf | toYaml | indent 1 }}

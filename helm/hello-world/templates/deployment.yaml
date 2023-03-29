@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hello-world.fullname" . }}-hello-world-httpd
+  labels:
+  {{- include "hello-world.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.helloWorldHttpd.replicas }}
+  selector:
+    matchLabels:
+      app: hello-world-httpd
+    {{- include "hello-world.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: hello-world-httpd
+      {{- include "hello-world.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.helloWorldHttpd.helloWorldHttpd.image.repository }}:{{ .Values.helloWorldHttpd.helloWorldHttpd.image.tag
+          | default .Chart.AppVersion }}
+        name: hello-world-httpd
+        ports:
+        - containerPort: 80
+        resources: {}
