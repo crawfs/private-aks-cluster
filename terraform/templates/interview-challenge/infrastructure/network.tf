@@ -47,6 +47,7 @@ resource "azurerm_route_table" "rt" {
   location            = var.location
   resource_group_name = var.resource_group_name
   tags                = var.tags
+  disable_bgp_route_propagation = false
 
   route {
     name                   = "kubenetfw_fw_r"
@@ -61,4 +62,23 @@ resource "azurerm_subnet_route_table_association" "subnet_association" {
 
   subnet_id      = each.value.id
   route_table_id = azurerm_route_table.rt[0].id
+}
+
+resource "azurerm_virtual_network_peering" "hub_to_spoke" {
+  name                      = "hub-to-spoke"
+  resource_group_name       = azurerm_resource_group.rg.name
+  virtual_network_name      = azurerm_virtual_network.hub_vnet.name
+  remote_virtual_network_id = azurerm_virtual_network.spoke_vnet.id
+  allow_forwarded_traffic   = true
+  allow_gateway_transit     = true
+}
+
+resource "azurerm_virtual_network_peering" "spoke_to_hub" {
+  name                      = "spoke-to-hub"
+  resource_group_name       = azurerm_resource_group.rg.name
+  virtual_network_name      = azurerm_virtual_network.spoke_vnet.name
+  remote_virtual_network_id = azurerm_virtual_network.hub_vnet.id
+  allow_forwarded_traffic   = true
+  use_remote_gateways       = true
+
 }
