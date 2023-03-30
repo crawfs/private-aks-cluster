@@ -6,6 +6,7 @@ resource "tls_private_key" "aks" {
 resource "azurerm_private_dns_zone" "aks" {
     name                = "privatelink.${var.location}.azmk8s.io"
     resource_group_name = azurerm_resource_group.rg.name
+}
 
 resource "azurerm_user_assigned_identity" "aks_identity" {
   resource_group_name = azurerm_resource_group.rg.name
