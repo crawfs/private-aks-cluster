@@ -3,6 +3,9 @@ resource "azurerm_virtual_network" "spoke_vnet" {
   address_space       = var.virtual_network_address_space
   location            = var.location
   resource_group_name = var.resource_group_name
+  dns_servers         = [
+    "10.1.0.4"
+  ]
   tags = var.tags
 }
 
@@ -11,6 +14,9 @@ resource "azurerm_virtual_network" "hub_vnet" {
   address_space       = var.virtual_network_address_space
   location            = var.location
   resource_group_name = var.resource_group_name
+  dns_servers         = [
+    "10.1.0.4"
+  ]
   tags = var.tags
 }
 

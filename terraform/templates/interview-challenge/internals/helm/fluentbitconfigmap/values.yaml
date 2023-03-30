@@ -38,8 +38,8 @@ fluentBitConfig:
       Port          5432
       User          ${POSTGRES_USER}
       Password      ${POSTGRES_PASSWORD}
-      Database      fluentbit
-      Table         fluentbit
+      Database      applogdb
+      Table         applogdb
       Timestamp_Key ts
   parsersConf: |-
     [PARSER]

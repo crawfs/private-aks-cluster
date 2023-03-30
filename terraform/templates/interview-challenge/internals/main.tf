@@ -25,13 +25,26 @@ terraform {
   }
 }
 
+provider "azurerm" {
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
+  features {
+  }
+}
+
+provider "kubernetes" {
+    host                   = data.terraform_remote_state.azure.kube_config_host
+    client_certificate     = base64decode(data.terraform_remote_state.azure.kube_client_certificate)
+    client_key             = base64decode(data.terraform_remote_state.azure.kube_client_key)
+    cluster_ca_certificate = base64decode(data.terraform_remote_state.azure.kube_cluster_ca_certificate)
+}
+
 provider "helm" {
   kubernetes {
-    host     = "https://cluster_endpoint:port"
-
-    client_certificate     = file("~/.kube/client-cert.pem")
-    client_key             = file("~/.kube/client-key.pem")
-    cluster_ca_certificate = file("~/.kube/cluster-ca-cert.pem")
+    host                   = data.terraform_remote_state.azure.kube_config_host
+    client_certificate     = base64decode(data.terraform_remote_state.azure.kube_client_certificate)
+    client_key             = base64decode(data.terraform_remote_state.azure.kube_client_key)
+    cluster_ca_certificate = base64decode(data.terraform_remote_state.azure.kube_cluster_ca_certificate)
   }
 }
 

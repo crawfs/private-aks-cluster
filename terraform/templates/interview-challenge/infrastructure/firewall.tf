@@ -22,6 +22,9 @@ resource "azurerm_firewall" "firewall" {
   zones               = [1,2,3]
   sku_tier            = "Premium"
   firewall_policy_id  = azurerm_firewall_policy.policy.id
+  dns_servers         = [
+    "168.63.129.16"
+  ]
 
 
   ip_configuration {
